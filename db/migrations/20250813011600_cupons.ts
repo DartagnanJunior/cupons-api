@@ -3,7 +3,7 @@ import type { Knex } from 'knex';
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable('users', (t) => {
     t.increments('id').primary();
-    t.text('external_ref');
+    t.text('name');
     t.text('email').unique();
     t.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
   });
@@ -14,7 +14,7 @@ export async function up(knex: Knex): Promise<void> {
     t.integer('max_redemptions').notNullable().defaultTo(1);
     t.integer('max_codes_amount');
     t.text('generation_pattern');
-    t.integer('generation_total');
+    t.integer('generation_amount');
     t.text('status').notNullable().defaultTo('ACTIVE');
     t.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
   });
