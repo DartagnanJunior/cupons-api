@@ -3,8 +3,8 @@ import type { Knex } from 'knex';
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable('users', (t) => {
     t.increments('id').primary();
-    t.text('name');
-    t.text('email').unique();
+    t.text('name').notNullable();
+    t.text('email').notNullable().unique();
     t.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
   });
 

@@ -1,7 +1,7 @@
 import fastify from 'fastify';
 import { env } from './env';
-import { couponsRoutes } from './routes/coupons';
-import { usersRoutes } from './routes/users';
+import { couponsRoutes } from './modules/coupons/coupons';
+import { usersRoutes } from './modules/users/users';
 
 const app = fastify();
 

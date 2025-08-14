@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
-import { knex } from '../database';
+import { knex } from '../../database';
 
 export async function couponsRoutes(app: FastifyInstance) {
   app.get('/', async () => {
@@ -11,10 +11,10 @@ export async function couponsRoutes(app: FastifyInstance) {
   app.post('/', async (request, reply) => {
     const createCouponsBodySchema = z.object({
       name: z.string(),
-      max_redemptions: z.number().default(1),
-      max_codes_amount: z.number().nullable().default(null),
+      max_redemptions: z.coerce.number().int().positive().default(1),
+      max_codes_amount: z.number().int().positive().nullable().default(null),
       generation_pattern: z.string().nullable().default(null),
-      generation_amount: z.number().nullable().default(null),
+      generation_amount: z.coerce.number().int().positive().nullable().default(null),
     });
 
     const { name, max_redemptions, max_codes_amount, generation_pattern, generation_amount } = createCouponsBodySchema.parse(request.body);
