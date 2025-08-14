@@ -6,10 +6,10 @@ export async function assignRoutes(app: FastifyInstance) {
   app.post('/', async (request, reply) => {
     await knex.transaction(async (transaction) => {
       const users = await transaction('users').select('*');
-  if (users.length === 0) throw new Error('No users found.');
+      if (users.length === 0) throw new Error('No users found.');
 
       const codes = await transaction('codes').whereNull('assigned_user_id').andWhere('status', 'ACTIVE').select('*');
-  if (codes.length === 0) throw new Error('No codes available for assignment.');
+      if (codes.length === 0) throw new Error('No codes available for assignment.');
 
       const randomUser = users[Math.floor(Math.random() * users.length)];
 
@@ -29,7 +29,7 @@ export async function assignRoutes(app: FastifyInstance) {
         attempts++;
       }
 
-  if (!randomUser || !randomCode) throw new Error('No valid user or code found for assignment.');
+      if (!randomUser || !randomCode) throw new Error('No valid user or code found for assignment.');
 
       await transaction('codes').update({ assigned_user_id: randomUser.id }).where({ id: randomCode.id });
 
@@ -55,12 +55,12 @@ export async function assignRoutes(app: FastifyInstance) {
 
     await knex.transaction(async (transaction) => {
       const codeFiltred = await transaction('codes').whereNull('assigned_user_id').andWhere('status', 'ACTIVE').andWhere({ code }).first();
-  if (!codeFiltred) throw new Error('The provided code is not valid or does not exist for assignment.');
+      if (!codeFiltred) throw new Error('The provided code is not valid or does not exist for assignment.');
 
       const users = await transaction('users').select('*');
 
       const randomUser = users[Math.floor(Math.random() * users.length)];
-  if (!randomUser) throw new Error('No valid user found for assignment.');
+      if (!randomUser) throw new Error('No valid user found for assignment.');
 
       await transaction('codes').update({ assigned_user_id: randomUser.id }).where({ id: codeFiltred.id });
 

@@ -20,6 +20,7 @@ declare module 'knex/types/tables' {
       created_at: string;
       redeemed_codes_amount_per_user: number;
       assign_codes_amount_per_user: number;
+      is_locked: boolean;
     };
 
     codes: {
