@@ -18,6 +18,16 @@ declare module 'knex/types/tables' {
       generation_amount: number | null;
       status: string;
       created_at: string;
+      redeemed_codes_amount_per_user: number;
+      assign_codes_amount_per_user: number;
+    };
+
+    codes: {
+      id: number;
+      coupon_book_id: number;
+      code: string;
+      created_at: string;
+      redeemed_times: number;
     };
   }
 }
