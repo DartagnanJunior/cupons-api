@@ -28,6 +28,8 @@ declare module 'knex/types/tables' {
       code: string;
       created_at: string;
       redeemed_times: number;
+      assigned_user_id: number | null;
+      status: string;
     };
   }
 }

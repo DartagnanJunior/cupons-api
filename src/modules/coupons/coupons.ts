@@ -3,11 +3,12 @@ import { z } from 'zod';
 import { knex } from '../../database';
 import { decisionCodeGeneration, generateCodes } from '../codes/codeGenerator';
 import { codesRoutes } from '../codes/codes';
+import { assignRoutes } from '../assing/assign';
 
 export async function couponsRoutes(app: FastifyInstance) {
-  app.get('/', async () => {
+  app.get('/', async (request, reply) => {
     const coupons = await knex('coupon_books').select();
-    return { coupons };
+    return reply.status(200).send({ coupons });
   });
 
   app.post('/', async (request, reply) => {
@@ -70,4 +71,5 @@ export async function couponsRoutes(app: FastifyInstance) {
   });
 
   app.register(codesRoutes, { prefix: 'codes' });
+  app.register(assignRoutes, { prefix: 'assign' });
 }

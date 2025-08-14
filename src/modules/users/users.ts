@@ -19,13 +19,13 @@ export async function usersRoutes(app: FastifyInstance) {
     reply.status(201).send();
   });
 
-  app.get('/', async () => {
+  app.get('/', async (request, reply) => {
     const users = await knex('users').select();
 
-    return { users };
+    return reply.status(200).send({ users });
   });
 
-  app.get('/:id', async (request) => {
+  app.get('/:id', async (request, reply) => {
     const getUserParamSchema = z.object({
       id: z.coerce.number().int().positive(),
     });
@@ -34,6 +34,6 @@ export async function usersRoutes(app: FastifyInstance) {
 
     const user = await knex('users').select().where({ id }).first();
 
-    return user;
+    return reply.status(200).send({ user });
   });
 }
