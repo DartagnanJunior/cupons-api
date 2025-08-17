@@ -36,4 +36,21 @@ export async function usersRoutes(app: FastifyInstance) {
 
     return reply.status(200).send({ user });
   });
+
+  app.get('/:id/codes', async (request, reply) => {
+    const getUserParamSchema = z.object({
+      id: z.coerce.number().int().positive(),
+    });
+
+    const { id } = getUserParamSchema.parse(request.params);
+
+    const user = await knex('users').select().where({ id }).first();
+    if (!user) {
+      return reply.status(404).send({ error: 'User not found' });
+    }
+
+    const codes = await knex('codes').select('*').where({ assigned_user_id: id });
+
+    return reply.status(200).send({ user, codes });
+  });
 }
