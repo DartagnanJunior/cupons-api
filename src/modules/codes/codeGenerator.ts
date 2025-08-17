@@ -44,10 +44,16 @@ export function defaultPattern(): string {
 export function generateCodes({ amount, pattern, maxAttempts = amount * 10 + 50 }: GenerateCodesParams): string[] {
   const set = new Set<string>();
   let attempts = 0;
+  const pat = pattern ?? defaultPattern();
+
+  const batchSize = Math.min(100, amount);
 
   while (set.size < amount && attempts < maxAttempts) {
-    const pat = pattern ?? defaultPattern();
-    set.add(codeFromPattern(pat));
+    const needed = amount - set.size;
+    const currentBatch = Math.min(batchSize, needed);
+    for (let i = 0; i < currentBatch; i++) {
+      set.add(codeFromPattern(pat));
+    }
     attempts++;
   }
 
