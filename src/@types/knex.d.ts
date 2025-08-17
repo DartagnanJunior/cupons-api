@@ -31,6 +31,8 @@ declare module 'knex/types/tables' {
       redeemed_times: number;
       assigned_user_id: number | null;
       status: string;
+      is_permanent: boolean;
+      redeemed_at: string | null;
     };
   }
 }

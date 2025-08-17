@@ -13,8 +13,12 @@ export async function lockRoutes(app: FastifyInstance) {
     await knex.transaction(async (transaction) => {
       const codeFiltred = await transaction('codes').where({ code }).first();
       if (!codeFiltred) throw new Error('The provided code is not valid or does not exist for locking.');
+      
+      if (codeFiltred.assigned_user_id === null) throw new Error('The provided code is not assigned to any user.');
 
       if (codeFiltred.status === 'LOCKED') throw new Error('The provided code is alredy locked.');
+
+      if (codeFiltred.is_permanent) throw new Error('The provided code is permanently locked and its status cannot be changed.');
 
       await transaction('codes').update({ status: 'LOCKED' }).where({ id: codeFiltred.id });
 

@@ -5,6 +5,7 @@ import { decisionCodeGeneration, generateCodes } from '../codes/codeGenerator';
 import { codesRoutes } from '../codes/codes';
 import { assignRoutes } from '../assing/assign';
 import { lockRoutes } from '../lock/lock';
+import { reedemRoutes } from '../reedem/reedem';
 
 export async function couponsRoutes(app: FastifyInstance) {
   app.get('/', async (request, reply) => {
@@ -74,4 +75,5 @@ export async function couponsRoutes(app: FastifyInstance) {
   app.register(codesRoutes, { prefix: 'codes' });
   app.register(assignRoutes, { prefix: 'assign' });
   app.register(lockRoutes, { prefix: 'lock' });
+  app.register(reedemRoutes, { prefix: 'redeem' });
 }
