@@ -38,7 +38,7 @@ export async function lockRoutes(app: FastifyInstance) {
         })
         .where({ id: codeFiltred.id });
 
-      const lockedCode = await transaction('codes').select('id', 'code').where({ id: codeFiltred.id }).orderBy('id', 'desc').first();
+      const lockedCode = await transaction('codes').select('*').where({ id: codeFiltred.id }).orderBy('id', 'desc').first();
 
       reply.status(201).send({
         ok: true,

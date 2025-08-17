@@ -29,7 +29,7 @@ export async function reedemRoutes(app: FastifyInstance) {
         .increment('redeemed_times', 1)
         .update({ status: 'REDEEMED', is_permanent: true, redeemed_at: knex.fn.now() });
 
-      const redeemedCode = await transaction('codes').select('id', 'code').where({ id: codeFiltred.id }).orderBy('id', 'desc').first();
+      const redeemedCode = await transaction('codes').select('*').where({ id: codeFiltred.id }).orderBy('id', 'desc').first();
 
       reply.status(201).send({
         ok: true,
