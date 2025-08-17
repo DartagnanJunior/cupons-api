@@ -33,6 +33,7 @@ declare module 'knex/types/tables' {
       status: string;
       is_permanent: boolean;
       redeemed_at: string | null;
+      locked_until: string | null;
     };
   }
 }
