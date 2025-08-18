@@ -4,5 +4,3 @@ db/app.db
 *.db-journal
 *.db-shm
 *.db-wal
-
-.env
