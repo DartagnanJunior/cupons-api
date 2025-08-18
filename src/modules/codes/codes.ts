@@ -18,17 +18,26 @@ export async function codesRoutes(app: FastifyInstance) {
 
     const { coupon_book_id, pattern, amount } = createCodesBodySchema.parse(request.body);
 
-    const codes = generateCodes({
-      amount,
-      pattern,
-    });
+    let codes: string[];
+    try {
+      codes = generateCodes({
+        amount,
+        pattern,
+      });
+    } catch (err: any) {
+      return reply.status(400).send({ error: err?.message || 'Failed to generate codes' });
+    }
 
     const rows: { coupon_book_id: number; code: string }[] = codes.map((code) => ({
       coupon_book_id,
       code,
     }));
 
-    await knex('codes').insert(rows);
+    try {
+      await knex('codes').insert(rows);
+    } catch (err: any) {
+      return reply.status(500).send({ error: 'Failed to register database' });
+    }
 
     reply.status(201).send({
       ok: true,

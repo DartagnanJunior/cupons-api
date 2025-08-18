@@ -6,7 +6,9 @@ export async function assignRoutes(app: FastifyInstance) {
   app.post('/', async (request, reply) => {
     await knex.transaction(async (transaction) => {
       const randomUser = await transaction('users').orderByRaw('RANDOM()').first();
-      if (!randomUser) throw new Error('No users found.');
+      if (!randomUser) {
+        return reply.status(404).send({ error: 'No users found.' });
+      }
 
       const randomCode = await transaction('codes')
         .whereNull('assigned_user_id')
@@ -19,7 +21,9 @@ export async function assignRoutes(app: FastifyInstance) {
         })
         .orderByRaw('RANDOM()')
         .first();
-      if (!randomCode) throw new Error('No codes available for assignment.');
+      if (!randomCode) {
+        return reply.status(404).send({ error: 'No codes available for assignment.' });
+      }
 
       await transaction('codes').update({ assigned_user_id: randomUser.id }).where({ id: randomCode.id });
 
@@ -45,10 +49,14 @@ export async function assignRoutes(app: FastifyInstance) {
 
     await knex.transaction(async (transaction) => {
       const codeFiltred = await transaction('codes').whereNull('assigned_user_id').andWhere('status', 'ACTIVE').andWhere({ code }).first();
-      if (!codeFiltred) throw new Error('The provided code is not valid or does not exist for assignment.');
+      if (!codeFiltred) {
+        return reply.status(404).send({ error: 'The provided code is not valid or does not exist for assignment.' });
+      }
 
       const randomUser = await transaction('users').orderByRaw('RANDOM()').first();
-      if (!randomUser) throw new Error('No users found.');
+      if (!randomUser) {
+        return reply.status(404).send({ error: 'No users found.' });
+      }
 
       await transaction('codes').update({ assigned_user_id: randomUser.id }).where({ id: codeFiltred.id });
 

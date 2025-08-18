@@ -46,7 +46,7 @@ export async function couponsRoutes(app: FastifyInstance) {
       });
 
       if (!ids?.length || ids[0] == null) {
-        throw new Error('Failed to create coupon book');
+        return reply.status(500).send({ error: 'Failed to create coupon book' });
       }
 
       const couponBookId = Number(ids[0]);

@@ -12,17 +12,26 @@ export async function reedemRoutes(app: FastifyInstance) {
 
     await knex.transaction(async (transaction) => {
       const codeFiltred = await transaction('codes').where({ code }).first();
-      if (!codeFiltred) throw new Error('The provided code is not valid or does not exist for redeeming.');
+      if (!codeFiltred) {
+        return reply.status(404).send({ error: 'The provided code is not valid or does not exist for redeeming.' });
+      }
 
-      if (codeFiltred.status === 'LOCKED') throw new Error('The provided code is locked and cannot be redeemed.');
+      if (codeFiltred.status === 'LOCKED') {
+        return reply.status(400).send({ error: 'The provided code is locked and cannot be redeemed.' });
+      }
 
-      if (codeFiltred.assigned_user_id === null) throw new Error('The provided code is not assigned to any user.');
+      if (codeFiltred.assigned_user_id === null) {
+        return reply.status(400).send({ error: 'The provided code is not assigned to any user.' });
+      }
 
-      const coupon_book = await transaction(`coupon_books`).where({ id: codeFiltred.coupon_book_id }).first();
-      if (!coupon_book) throw new Error('The provided code does not belong to a valid coupon book.');
+      const coupon_book = await transaction('coupon_books').where({ id: codeFiltred.coupon_book_id }).first();
+      if (!coupon_book) {
+        return reply.status(400).send({ error: 'The provided code does not belong to a valid coupon book.' });
+      }
 
-      if (coupon_book?.redeemed_codes_amount_per_user <= codeFiltred.redeemed_times)
-        throw new Error('The provided code has already been redeemed the maximum number of times.');
+      if (coupon_book?.redeemed_codes_amount_per_user <= codeFiltred.redeemed_times) {
+        return reply.status(400).send({ error: 'The provided code has already been redeemed the maximum number of times.' });
+      }
 
       await transaction('codes')
         .where({ id: codeFiltred.id })
