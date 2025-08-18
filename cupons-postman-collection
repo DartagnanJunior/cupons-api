@@ -1,0 +1,329 @@
+{
+	"info": {
+		"_postman_id": "dff99823-1025-4d92-8c9a-9a683474c8c8",
+		"name": "Cupons",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6495572"
+	},
+	"item": [
+		{
+			"name": "Create cupon book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"teste3\",\r\n    \"max_redemptions\": 1,\r\n    \"max_codes_amount\": 2,\r\n    \"generation_pattern\": \"ZZZ-999\",\r\n    \"generation_amount\": 2,\r\n    \"redeemed_codes_amount_per_user\": 2,\r\n    \"assign_codes_amount_per_user\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3333/coupons",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"coupons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"teste1@teste.com\",\r\n    \"name\": \"teste1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3333/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"teste1@teste.com\",\r\n    \"external_ref\": \"teste1\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/users/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"users",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"teste1@teste.com\",\r\n    \"external_ref\": \"teste1\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all cupons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3333/coupons",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"coupons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Codes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3333/coupons/codes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"coupons",
+						"codes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Codes in Batch",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"coupon_book_id\": 1,\r\n    \"pattern\": \"AAA-999\",\r\n    \"amount\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3333/coupons/codes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"coupons",
+						"codes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign code to user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"coupon_book_id\": 1,\r\n    \"pattern\": \"AAA-999\",\r\n    \"amount\": 2\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/coupons/assign/:code",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"coupons",
+						"assign",
+						":code"
+					],
+					"variable": [
+						{
+							"key": "code",
+							"value": "AAA-983"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign random code to user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"coupon_book_id\": 1,\r\n    \"pattern\": \"AAA-999\",\r\n    \"amount\": 2\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/coupons/assign",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"coupons",
+						"assign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lock code",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3333/coupons/lock/:code",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"coupons",
+						"lock",
+						":code"
+					],
+					"variable": [
+						{
+							"key": "code",
+							"value": "AAA-958"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Redeem Code",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3333/coupons/redeem/:code",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"coupons",
+						"redeem",
+						":code"
+					],
+					"variable": [
+						{
+							"key": "code",
+							"value": "ZZZ-736"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users cupons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3333/users/:id/codes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"users",
+						":id",
+						"codes"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
